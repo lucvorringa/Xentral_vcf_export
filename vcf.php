@@ -15,14 +15,12 @@ class vcf {
   
   function vcfList()
   {
-    $this->app->Tpl->Parse("PAGE","vcf_list.tpl");
+	$this->app->Tpl->Parse("PAGE","vcf_list.tpl");
+	
+	//Firmen export
 	$query = $this->app->DB->Query("SELECT kundennummer,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM adresse");
 	while($row = $this->app->DB->Fetch_Array($query)){
-		if (strpos($row["kundennummer"], 'ANSPRECHPARTNER') !== false) {
-			$kundennummer = substr($row["kundennummer"],16);
-		}else {
-			$kundennummer = $row["kundennummer"];
-		}
+		$kundennummer = $row["kundennummer"];
 		
 		$firmenquery = $this->app->DB->Query("SELECT name FROM adresse WHERE kundennummer = '$kundennummer' LIMIT 1");
 		$firmenname = $this->app->DB->Fetch_Array($firmenquery)[0];
@@ -45,6 +43,31 @@ class vcf {
 	}
 	$this->app->DB->free($query);
 	
+	//Ansprechpartner
+	$query = $this->app->DB->Query("SELECT adresse,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM ansprechpartner");
+	while($row = $this->app->DB->Fetch_Array($query)){
+		$kundenid = $row["adresse"];
+		
+		$firmenquery = $this->app->DB->Query("SELECT name FROM adresse WHERE id = '$kundenid' LIMIT 1");
+		$firmenname = $this->app->DB->Fetch_Array($firmenquery)[0];
+		$this->app->DB->free($firmenquery);
+		
+		$test = new vcardexp;
+		$test->setValue("firstName", $row["vorname"]);
+		$test->setValue("lastName", $row["name"]);
+		$test->setValue("organisation", $firmenname);
+		$test->setValue("tel_work", $row["telefon"]);
+		$test->setValue("fax_work", $row["telefax"]);
+		$test->setValue("tel_cell", $row["mobil"]);
+		$test->setValue("url", $row["internetseite"]);
+		$test->setValue("email_internet", $row["email"]);
+		$test->setValue("street_home", $row["strasse"]);
+		$test->setValue("postal_home", $row["plz"]);
+		$test->setValue("city_home", $row["ort"]);
+		$test->setValue("country_home", $row["land"]);
+		$test->getCard();
+	}
+	$this->app->DB->free($query);
   }
 }
 

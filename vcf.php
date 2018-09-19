@@ -29,7 +29,7 @@ class vcf {
 		$test = new vcardexp;
 		$test->setValue("firstName", $row["vorname"]);
 		$test->setValue("lastName", $row["name"]);
-		$test->setValue("organisation", $firmenname);
+		//$test->setValue("organisation", $firmenname);
 		$test->setValue("tel_work", $row["telefon"]);
 		$test->setValue("fax_work", $row["telefax"]);
 		$test->setValue("tel_cell", $row["mobil"]);

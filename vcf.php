@@ -18,7 +18,7 @@ class vcf {
 	$this->app->Tpl->Parse("PAGE","vcf_list.tpl");
 	
 	//Firmen export
-	$query = $this->app->DB->Query("SELECT kundennummer,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM adresse");
+	$query = $this->app->DB->Query("SELECT kundennummer,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM adresse WHERE kundennummer NOT LIKE 'DEL-%'");
 	while($row = $this->app->DB->Fetch_Array($query)){
 		$kundennummer = $row["kundennummer"];
 		

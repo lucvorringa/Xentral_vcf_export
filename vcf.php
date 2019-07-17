@@ -44,7 +44,7 @@ class vcf {
 	$this->app->DB->free($query);
 	
 	//Ansprechpartner
-	$query = $this->app->DB->Query("SELECT adresse,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM ansprechpartner");
+	$query = $this->app->DB->Query("SELECT adresse,vorname,name,email,strasse,plz,ort,land,telefon,telefax,mobil FROM ansprechpartner WHERE adresse NOT LIKE '0'");
 	while($row = $this->app->DB->Fetch_Array($query)){
 		$kundenid = $row["adresse"];
 		

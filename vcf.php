@@ -73,7 +73,7 @@ class vcf {
         $this->app->DB->free($query);
         header('Content-Type: text/x-vcard');
         header("Content-Disposition: attachment; filename=adressen.vcf");
-        readfile("/opt/xentral-userdata/adressen.vcf");
+        readfile("/opt/xentral-userdata/adressen.vcf"); //hier muss der Userdata hinterlegt werden
 
           }
 }

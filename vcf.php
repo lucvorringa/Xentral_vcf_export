@@ -17,6 +17,11 @@ class vcf {
 
   function vcfList()
   {
+        //clear local vcf file
+        $fp = fopen("/opt/xentral-userdata/adressen.vcf", "r+");
+        ftruncate($fp, 0);
+        fclose($fp);
+
         $this->app->Tpl->Parse("PAGE","vcf_list.tpl");
 
         //Firmen export
@@ -208,3 +213,4 @@ class vcardexp
                 }
 
         }
+
